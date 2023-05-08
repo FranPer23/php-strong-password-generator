@@ -1,3 +1,13 @@
+<?php
+session_start();
+include_once __DIR__ . "/functions.php";
+
+if (isset($_GET["length"])) {
+    $password_length = $_GET["length"];
+    $password = generate_password($pwd_length, $chars_to_use);
+    $_SESSION["password"] = $password;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,13 +25,14 @@
             <h1 style="color: #7e868d">Strong Password Generator</h1>
             <h2 style="color: #ffffff">Genera una password sicura</h2>
         </div>
-        <!-- WARNING MESSAGE -->
-        <div class="card my-card" style="background-color: #cff4fc;">
-            <div class="card-body">
-                Nessun parametro valido inserito
+
+        <?php if (isset($password)) { ?>
+            <div class="card my-card" style="background-color: #cff4fc;">
+                <div class="card-body">
+                    La tua password è <?php echo $password; ?>
+                </div>
             </div>
-        </div>
-        <!-- /WARNING MESSAGE -->
+        <?php } ?>
 
         <!-- PASSWORD GENERATOR  -->
         <div class="card my-card mt-3" style="background-color: #f8f9fa">
@@ -33,7 +44,7 @@
                                 <p class="card-text">Lunghezza password:</p>
                             </th>
                             <th scope="col" style="border-style: none">
-                                <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1" style="width: 70%">
+                                <input type="number" name="length" id="length" class="form-control" ]value="<?php echo isset($_GET["length"]) ? $_GET["length"] : '' ?> aria-describedby=" basic-addon1" style="width: 70%">
                             </th>
 
                         </tr>
@@ -45,13 +56,13 @@
                             </th>
                             <td style="border-style: none">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1">
                                     <label class="form-check-label" for="flexRadioDefault1">
                                         si
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="0">
                                     <label class="form-check-label" for="flexRadioDefault2">
                                         no
                                     </label>
@@ -63,19 +74,19 @@
                             <th scope="row" style="border-style: none"></th>
                             <td style="border-style: none">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="L" id="flexCheckDefault" name="characters[]">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         Lettere
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="N" id="flexCheckDefault" name="characters[]">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         Numeri
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" value="S" id="flexCheckDefault" name="characters[]">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         Simboli
                                     </label>
